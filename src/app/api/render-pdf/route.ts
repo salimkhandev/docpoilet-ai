@@ -58,7 +58,7 @@ export async function POST(req: Request) {
         await page.setContent(buildHtmlDocument(html, css), { waitUntil: "networkidle0" });
 
         const pdfBuffer = await page.pdf({
-            format: "A4",
+            format: "a4",
             printBackground: true,
             margin: { top: "12px", right: "0", bottom: "12px", left: "0" },
         });
