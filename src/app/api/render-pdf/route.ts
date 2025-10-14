@@ -1,5 +1,6 @@
 import puppeteer from "puppeteer-core";
 import chromium from "@sparticuz/chromium";
+import { NextResponse } from "next/server";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -38,17 +39,24 @@ export async function POST(req: Request) {
         const payload = (await req.json()) as RenderPayload;
         const { html, css } = payload || {};
         if (!html || typeof html !== "string") {
-            return new Response(JSON.stringify({ error: "Missing 'html' in body" }), {
-                status: 400,
-                headers: { "content-type": "application/json" },
-            });
+            return NextResponse.json({ error: "Missing 'html' in body" }, { status: 400 });
         }
 
         // Use @sparticuz/chromium for Vercel compatibility
         const executablePath = await chromium.executablePath();
 
         const browser = await puppeteer.launch({
-            args: chromium.args,
+            args: [
+                ...chromium.args,
+                '--no-sandbox',
+                '--disable-setuid-sandbox',
+                '--disable-dev-shm-usage',
+                '--disable-accelerated-2d-canvas',
+                '--no-first-run',
+                '--no-zygote',
+                '--single-process',
+                '--disable-gpu'
+            ],
             defaultViewport: { width: 794, height: 1123 },
             executablePath,
             headless: true,
@@ -67,7 +75,7 @@ export async function POST(req: Request) {
         await browser.close();
 
         const arrayBuffer = pdfBuffer.buffer.slice(pdfBuffer.byteOffset, pdfBuffer.byteOffset + pdfBuffer.byteLength);
-        return new Response(arrayBuffer as unknown as BodyInit, {
+        return new NextResponse(arrayBuffer, {
             status: 200,
             headers: {
                 "content-type": "application/pdf",
@@ -78,10 +86,7 @@ export async function POST(req: Request) {
     } catch (error) {
         const message = error instanceof Error ? error.message : String(error);
         console.error("render-pdf failed", message);
-        return new Response(JSON.stringify({ error: "Failed to render PDF", message }), {
-            status: 500,
-            headers: { "content-type": "application/json" },
-        });
+        return NextResponse.json({ error: "Failed to render PDF", message }, { status: 500 });
     }
 }
 
