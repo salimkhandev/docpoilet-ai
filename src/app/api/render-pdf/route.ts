@@ -66,7 +66,7 @@ export async function POST(req: Request) {
             ],
             defaultViewport: { width: 794, height: 1123 },
             executablePath,
-            headless: chromium.headless,
+            headless: true,
             ignoreDefaultArgs: ['--disable-extensions'],
         });
         const page = await browser.newPage();
