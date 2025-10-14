@@ -9,7 +9,7 @@ importers:
   .:
     dependencies:
       '@sparticuz/chromium':
-        specifier: ^131.0.0
+        specifier: ^131.0.1
         version: 131.0.1
       grapesjs:
         specifier: ^0.22.13
