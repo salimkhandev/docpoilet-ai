@@ -64,7 +64,7 @@ export async function POST(req: Request) {
                 '--disable-backgrounding-occluded-windows',
                 '--disable-renderer-backgrounding'
             ],
-            defaultViewport: chromium.defaultViewport,
+            defaultViewport: { width: 794, height: 1123 },
             executablePath,
             headless: chromium.headless,
             ignoreDefaultArgs: ['--disable-extensions'],
