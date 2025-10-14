@@ -1,4 +1,5 @@
-import puppeteer from "puppeteer";
+import puppeteer from "puppeteer-core";
+import chromium from "@sparticuz/chromium";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -43,13 +44,12 @@ export async function POST(req: Request) {
             });
         }
 
-        // Prefer a system Chrome if provided (helps on environments where Chromium isn't downloaded yet)
-        const executablePath =
-            process.env.PUPPETEER_EXECUTABLE_PATH || process.env.CHROME_PATH || undefined;
+        // Use @sparticuz/chromium for Vercel compatibility
+        const executablePath = await chromium.executablePath();
 
         const browser = await puppeteer.launch({
-            headless: true,
-            args: ["--no-sandbox", "--disable-setuid-sandbox"],
+            headless: chromium.headless,
+            args: chromium.args,
             executablePath,
         });
         const page = await browser.newPage();
