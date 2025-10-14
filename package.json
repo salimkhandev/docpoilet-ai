@@ -12,13 +12,13 @@
     "lint": "eslint"
   },
   "dependencies": {
-    "chrome-aws-lambda": "^10.1.0",
+    "@sparticuz/chromium": "^131.0.1",
     "grapesjs": "^0.22.13",
     "html-to-image": "^1.11.13",
     "html2pdf.js": "^0.12.1",
     "jspdf": "^3.0.3",
     "next": "15.5.5",
-    "puppeteer-core": "^10.1.0",
+    "puppeteer-core": "^24.24.1",
     "react": "19.1.0",
     "react-dom": "19.1.0"
   },

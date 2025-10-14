@@ -1,5 +1,5 @@
 import puppeteer from "puppeteer-core";
-import chromium from "chrome-aws-lambda";
+import chromium from "@sparticuz/chromium";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -44,14 +44,14 @@ export async function POST(req: Request) {
             });
         }
 
-        // Use chrome-aws-lambda for Vercel compatibility
-        const executablePath = await chromium.executablePath;
+        // Use @sparticuz/chromium for Vercel compatibility
+        const executablePath = await chromium.executablePath();
 
         const browser = await puppeteer.launch({
             args: chromium.args,
-            defaultViewport: chromium.defaultViewport,
+            defaultViewport: { width: 794, height: 1123 },
             executablePath,
-            headless: chromium.headless,
+            headless: true,
         });
         const page = await browser.newPage();
         await page.setViewport({ width: 794, height: 1123, deviceScaleFactor: 2 });
