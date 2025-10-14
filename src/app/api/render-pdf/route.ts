@@ -63,7 +63,7 @@ export async function POST(req: Request) {
         // Wait for PDF generation to complete
         const pdfBuffer = await pdfPromise;
 
-        return new NextResponse(pdfBuffer, {
+        return new NextResponse(pdfBuffer as any, {
             status: 200,
             headers: {
                 "content-type": "application/pdf",
