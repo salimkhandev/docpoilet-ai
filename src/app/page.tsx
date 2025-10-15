@@ -12,7 +12,6 @@ export default function TailwindGrapes() {
 
   useEffect(() => {
     if (exported) return;
-
     const editor = grapesjs.init({
       container: "#gjs",
       height: "100vh",
@@ -25,7 +24,7 @@ export default function TailwindGrapes() {
       },
     });
 
-    // Command to export HTML + CSS as a downloadable HTML file
+    // Command to export HTML + CSS as a downloadable HTML files
     editor.Commands.add("export-html", {
       run() {
         const html = editor.getHtml();
