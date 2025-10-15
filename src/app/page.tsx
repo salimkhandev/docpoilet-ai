@@ -2,8 +2,8 @@
 import grapesjs from "grapesjs";
 import "grapesjs/dist/css/grapes.min.css";
 import { useEffect, useState } from "react";
-import PreviewRenderer from "./PreviewRenderer";
 import Documents from "./Documents";
+import PreviewRenderer from "./PreviewRenderer";
 
 
 
@@ -78,12 +78,13 @@ export default function TailwindGrapes() {
       const frameDoc = editor.Canvas.getDocument();
       if (!frameDoc) return;
 
-      const cfg = frameDoc.createElement("script");
-      cfg.textContent = `tailwind.config = { corePlugins: { preflight: false } }`;
-      frameDoc.head.appendChild(cfg);
-
       const tw = frameDoc.createElement("script");
       tw.src = "https://cdn.tailwindcss.com";
+      tw.onload = () => {
+        const cfg = frameDoc.createElement("script");
+        cfg.textContent = `tailwind.config = { corePlugins: { preflight: false } }`;
+        frameDoc.head.appendChild(cfg);
+      };
       frameDoc.head.appendChild(tw);
     });
   }, [exported]);
