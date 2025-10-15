@@ -50,9 +50,17 @@ export async function POST(req: Request) {
         let browser: Browser | BrowserCore;
         if (process.env.NODE_ENV === "production" || process.env.VERCEL_ENV === "production") {
             const executablePath = await chromium.executablePath();
+            const args = [
+                ...chromium.args,
+                "--disable-dev-shm-usage",
+                "--no-sandbox",
+                "--disable-setuid-sandbox",
+                "--no-zygote",
+                "--single-process",
+            ];
             browser = await puppeteerCore.launch({
                 executablePath,
-                args: chromium.args,
+                args,
                 headless: chromium.headless,
                 defaultViewport: chromium.defaultViewport,
             });
@@ -61,7 +69,7 @@ export async function POST(req: Request) {
                 process.env.PUPPETEER_EXECUTABLE_PATH || process.env.CHROME_PATH || undefined;
             browser = await puppeteer.launch({
                 headless: true,
-                args: ["--no-sandbox", "--disable-setuid-sandbox"],
+                args: ["--no-sandbox", "--disable-setuid-sandbox", "--disable-dev-shm-usage"],
                 executablePath,
             });
         }
