@@ -1,4 +1,4 @@
-import chromium from "@sparticuz/chromium-min";
+import chromium from "@sparticuz/chromium";
 import puppeteer, { type Browser } from "puppeteer";
 import puppeteerCore, { type Browser as BrowserCore } from "puppeteer-core";
 
@@ -49,9 +49,7 @@ export async function POST(req: Request) {
         // Prefer a system Chrome if provided (helps on environments where Chromium isn't downloaded yet)
         let browser: Browser | BrowserCore;
         if (process.env.NODE_ENV === "production" || process.env.VERCEL_ENV === "production") {
-            const executablePath = await chromium.executablePath(
-                "https://github.com/Sparticuz/chromium/releases/download/v131.0.1/chromium-v131.0.1-pack.tar"
-            );
+            const executablePath = await chromium.executablePath();
             browser = await puppeteerCore.launch({
                 executablePath,
                 args: chromium.args,
