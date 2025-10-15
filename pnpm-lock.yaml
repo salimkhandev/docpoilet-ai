@@ -8,8 +8,8 @@ importers:
 
   .:
     dependencies:
-      '@sparticuz/chromium-min':
-        specifier: ^131.0.1
+      '@sparticuz/chromium':
+        specifier: ^131.0.0
         version: 131.0.1
       grapesjs:
         specifier: ^0.22.13
@@ -381,8 +381,8 @@ packages:
   '@rushstack/eslint-patch@1.14.0':
     resolution: {integrity: sha512-WJFej426qe4RWOm9MMtP4V3CV4AucXolQty+GRgAWLgQXmpCuwzs7hEpxxhSc/znXUSxum9d/P/32MW0FlAAlA==}
 
-  '@sparticuz/chromium-min@131.0.1':
-    resolution: {integrity: sha512-kQqKflJtjcBb8aA1b6L4dhU/8UbCJHcjb3au8cjBhKAG7nzqh//92rHCB6ULkgV0CMEQmfp3LDBQ/W8Wg2k+Yg==}
+  '@sparticuz/chromium@131.0.1':
+    resolution: {integrity: sha512-VfmHkQmb/Px0zjwdSQwjRMwFw63Qfj+g4Giumz4jiAGEpXHgIZk6xEwlUz6yiUHVDveK2TEgMR2MR6I3okOE7w==}
     engines: {node: '>= 16'}
 
   '@swc/helpers@0.5.15':
@@ -2538,7 +2538,7 @@ snapshots:
 
   '@rushstack/eslint-patch@1.14.0': {}
 
-  '@sparticuz/chromium-min@131.0.1':
+  '@sparticuz/chromium@131.0.1':
     dependencies:
       follow-redirects: 1.15.11
       tar-fs: 3.1.1
