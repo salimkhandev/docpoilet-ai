@@ -1,7 +1,10 @@
-import puppeteer from "puppeteer";
+import chromium from "@sparticuz/chromium-min";
+import puppeteer, { type Browser } from "puppeteer";
+import puppeteerCore, { type Browser as BrowserCore } from "puppeteer-core";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
+export const maxDuration = 60;
 
 type RenderPayload = {
     html: string;
@@ -44,14 +47,26 @@ export async function POST(req: Request) {
         }
 
         // Prefer a system Chrome if provided (helps on environments where Chromium isn't downloaded yet)
-        const executablePath =
-            process.env.PUPPETEER_EXECUTABLE_PATH || process.env.CHROME_PATH || undefined;
-
-        const browser = await puppeteer.launch({
-            headless: true,
-            args: ["--no-sandbox", "--disable-setuid-sandbox"],
-            executablePath,
-        });
+        let browser: Browser | BrowserCore;
+        if (process.env.NODE_ENV === "production" || process.env.VERCEL_ENV === "production") {
+            const executablePath = await chromium.executablePath(
+                "https://github.com/Sparticuz/chromium/releases/download/v131.0.1/chromium-v131.0.1-pack.tar"
+            );
+            browser = await puppeteerCore.launch({
+                executablePath,
+                args: chromium.args,
+                headless: chromium.headless,
+                defaultViewport: chromium.defaultViewport,
+            });
+        } else {
+            const executablePath =
+                process.env.PUPPETEER_EXECUTABLE_PATH || process.env.CHROME_PATH || undefined;
+            browser = await puppeteer.launch({
+                headless: true,
+                args: ["--no-sandbox", "--disable-setuid-sandbox"],
+                executablePath,
+            });
+        }
         const page = await browser.newPage();
         await page.setViewport({ width: 794, height: 1123, deviceScaleFactor: 2 });
         await page.setContent(buildHtmlDocument(html, css), { waitUntil: "networkidle0" });
