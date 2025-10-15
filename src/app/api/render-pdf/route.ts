@@ -1,6 +1,6 @@
-import chromium from "@sparticuz/chromium";
-import puppeteer, { type Browser } from "puppeteer";
-import puppeteerCore, { type Browser as BrowserCore } from "puppeteer-core";
+import chromium from "@sparticuz/chromium-min";
+import puppeteer from "puppeteer";
+import puppeteerCore from "puppeteer-core";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -46,33 +46,21 @@ export async function POST(req: Request) {
             });
         }
 
-        // Prefer a system Chrome if provided (helps on environments where Chromium isn't downloaded yet)
-        let browser: Browser | BrowserCore;
-        if (process.env.NODE_ENV === "production" || process.env.VERCEL_ENV === "production") {
-            const executablePath = await chromium.executablePath();
-            const args = [
-                ...chromium.args,
-                "--disable-dev-shm-usage",
-                "--no-sandbox",
-                "--disable-setuid-sandbox",
-                "--no-zygote",
-                "--single-process",
-            ];
-            browser = await puppeteerCore.launch({
-                executablePath,
-                args,
-                headless: chromium.headless,
-                defaultViewport: chromium.defaultViewport,
-            });
-        } else {
-            const executablePath =
-                process.env.PUPPETEER_EXECUTABLE_PATH || process.env.CHROME_PATH || undefined;
-            browser = await puppeteer.launch({
+        const isProd = process.env.NODE_ENV === "production" || process.env.VERCEL_ENV === "production";
+
+        const browser = isProd
+            ? await puppeteerCore.launch({
+                args: chromium.args,
+                executablePath: await chromium.executablePath(
+                    "https://github.com/Sparticuz/chromium/releases/download/v133.0.0/chromium-v133.0.0-pack.tar"
+                ),
                 headless: true,
-                args: ["--no-sandbox", "--disable-setuid-sandbox", "--disable-dev-shm-usage"],
-                executablePath,
+            })
+            : await puppeteer.launch({
+                headless: true,
+                args: ["--no-sandbox", "--disable-setuid-sandbox"],
+                executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || process.env.CHROME_PATH,
             });
-        }
         const page = await browser.newPage();
         await page.setViewport({ width: 794, height: 1123, deviceScaleFactor: 2 });
         await page.setContent(buildHtmlDocument(html, css), { waitUntil: "networkidle0" });
