@@ -1,6 +1,4 @@
 import chromium from "@sparticuz/chromium-min";
-import puppeteer from "puppeteer";
-import puppeteerCore from "puppeteer-core";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -49,14 +47,14 @@ export async function POST(req: Request) {
         const isProd = process.env.NODE_ENV === "production" || process.env.VERCEL_ENV === "production";
 
         const browser = isProd
-            ? await puppeteerCore.launch({
+            ? await (await import("puppeteer-core")).default.launch({
                 args: chromium.args,
                 executablePath: await chromium.executablePath(
                     "https://github.com/Sparticuz/chromium/releases/download/v133.0.0/chromium-v133.0.0-pack.tar"
                 ),
                 headless: true,
             })
-            : await puppeteer.launch({
+            : await (await import("puppeteer")).default.launch({
                 headless: true,
                 args: ["--no-sandbox", "--disable-setuid-sandbox"],
                 executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || process.env.CHROME_PATH,
