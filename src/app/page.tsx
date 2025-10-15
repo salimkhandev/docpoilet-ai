@@ -25,34 +25,34 @@ export default function TailwindGrapes() {
     });
 
     // Command to export HTML + CSS as a downloadable HTML files
-    editor.Commands.add("export-html", {
-      run() {
-        const html = editor.getHtml();
-        const css = editor.getCss();
+//     editor.Commands.add("export-html", {
+//       run() {
+//         const html = editor.getHtml();
+//         const css = editor.getCss();
 
-        const fullHtml = `
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GrapesJS Export</title>
-  <style>${css}</style>
-  <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body>
-  ${html}
-</body>
-</html>
-		`;
+//         const fullHtml = `
+// <!DOCTYPE html>
+// <html lang="en">
+// <head>
+//   <meta charset="UTF-8" />
+//   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+//   <title>GrapesJS Export</title>
+//   <style>${css}</style>
+//   <script src="https://cdn.tailwindcss.com"></script>
+// </head>
+// <body>
+//   ${html}
+// </body>
+// </html>
+// 		`;
 
-        const blob = new Blob([fullHtml], { type: "text/html" });
-        const link = document.createElement("a");
-        link.href = URL.createObjectURL(blob);
-        link.download = "design.html";
-        link.click();
-      },
-    });
+//         const blob = new Blob([fullHtml], { type: "text/html" });
+//         const link = document.createElement("a");
+//         link.href = URL.createObjectURL(blob);
+//         link.download = "design.html";
+//         link.click();
+//       },
+//     });
 
     // Command to send HTML/CSS to preview
     editor.Commands.add("send-to-preview", {
@@ -65,12 +65,6 @@ export default function TailwindGrapes() {
 
     // Add buttons in GrapesJS panel
     editor.Panels.addButton("options", [
-      {
-        id: "export-html-btn",
-        className: "fa fa-code",
-        command: "export-html",
-        attributes: { title: "Export HTML" },
-      },
       {
         id: "preview-pdf-btn",
         className: "fa fa-file-pdf-o",

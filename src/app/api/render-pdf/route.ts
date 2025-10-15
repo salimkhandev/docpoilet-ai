@@ -57,7 +57,7 @@ export async function POST(req: Request) {
             : await (await import("puppeteer")).default.launch({
                 headless: true,
                 args: ["--no-sandbox", "--disable-setuid-sandbox"],
-                executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || process.env.CHROME_PATH,
+                executablePath: process.env.PUPPETEER_EXECUTABLE_PATH,
             });
         const page = await browser.newPage();
         await page.setViewport({ width: 794, height: 1123, deviceScaleFactor: 2 });
