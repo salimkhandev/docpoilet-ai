@@ -5,29 +5,54 @@ import { useEffect, useState } from "react";
 import Documents from "./Documents";
 import PreviewRenderer from "./PreviewRenderer";
 
+
+
 export default function TailwindGrapes() {
   const [exported, setExported] = useState<{ html: string; css: string } | null>(null);
 
   useEffect(() => {
     if (exported) return;
-
     const editor = grapesjs.init({
       container: "#gjs",
       height: "100vh",
       width: "auto",
       storageManager: false,
-      fromElement: false, // Changed to false
+      fromElement: true,
       canvas: {
         styles: [],
         scripts: [],
       },
     });
 
-    // Get the Documents component HTML and set it as initial content
-    const documentsContainer = document.getElementById('documents-content');
-    if (documentsContainer) {
-      editor.setComponents(documentsContainer.innerHTML);
-    }
+    // Command to export HTML + CSS as a downloadable HTML files
+    //     editor.Commands.add("export-html", {
+    //       run() {
+    //         const html = editor.getHtml();
+    //         const css = editor.getCss();
+
+    //         const fullHtml = `
+    // <!DOCTYPE html>
+    // <html lang="en">
+    // <head>
+    //   <meta charset="UTF-8" />
+    //   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    //   <title>GrapesJS Export</title>
+    //   <style>${css}</style>
+    //   <script src="https://cdn.tailwindcss.com"></script>
+    // </head>
+    // <body>
+    //   ${html}
+    // </body>
+    // </html>
+    // 		`;
+
+    //         const blob = new Blob([fullHtml], { type: "text/html" });
+    //         const link = document.createElement("a");
+    //         link.href = URL.createObjectURL(blob);
+    //         link.download = "design.html";
+    //         link.click();
+    //       },
+    //     });
 
     // Command to send HTML/CSS to preview
     editor.Commands.add("send-to-preview", {
@@ -37,6 +62,9 @@ export default function TailwindGrapes() {
         setExported({ html, css });
       },
     });
+
+
+
 
     // Add buttons in GrapesJS panel
     editor.Panels.addButton("options", [
@@ -61,11 +89,9 @@ export default function TailwindGrapes() {
       tw.src = "https://cdn.tailwindcss.com";
       frameDoc.head.appendChild(tw);
     });
-
-    return () => {
-      editor.destroy();
-    };
   }, [exported]);
+
+
 
   if (exported) {
     return (
@@ -74,12 +100,11 @@ export default function TailwindGrapes() {
   }
 
   return (
-    <>
-      {/* Hidden container to hold Documents content */}
-      <div id="documents-content" style={{ display: 'none' }}>
-        <Documents />
-      </div>
-      <div id="gjs"></div>
-    </>
+    <div id="gjs">
+
+      <Documents />
+
+
+    </div>
   );
 }
