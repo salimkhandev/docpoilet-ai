@@ -14,6 +14,15 @@ importers:
       grapesjs:
         specifier: ^0.22.13
         version: 0.22.13
+      grapesjs-blocks-basic:
+        specifier: ^1.0.2
+        version: 1.0.2
+      grapesjs-plugin-forms:
+        specifier: ^2.0.6
+        version: 2.0.6
+      grapesjs-preset-webpage:
+        specifier: ^1.0.3
+        version: 1.0.3
       html-to-image:
         specifier: ^1.11.13
         version: 1.11.13
@@ -23,6 +32,9 @@ importers:
       jspdf:
         specifier: ^3.0.3
         version: 3.0.3
+      lucide-react:
+        specifier: ^0.545.0
+        version: 0.545.0(react@19.1.0)
       next:
         specifier: ^14.2.20
         version: 14.2.33(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
@@ -1222,6 +1234,15 @@ packages:
   graceful-fs@4.2.11:
     resolution: {integrity: sha512-RbJ5/jmFcNNCcDV5o9eTnBLJ/HszWV0P73bc+Ff4nS/rJj+YaS6IGyiOL0VoBYX+l1Wrl3k63h/KrH+nhJ0XvQ==}
 
+  grapesjs-blocks-basic@1.0.2:
+    resolution: {integrity: sha512-SsPKf/CvQkZ+kABOsN01auAPHXh/2J20g0AWYF7fHR3Gw3TZLtdIxT1mk90Qzi76u/7sUYi3CTI+i3ZaTtXHRA==}
+
+  grapesjs-plugin-forms@2.0.6:
+    resolution: {integrity: sha512-4rDob01NLiJWas5JW1FCpQc/4R4oS4wc/qr7pQwjGUiDzHNPKZLix10FqUKEv7hnzPmBaR2ejBL87sMwz11Tlw==}
+
+  grapesjs-preset-webpage@1.0.3:
+    resolution: {integrity: sha512-C0VOKLAdhv0j1f81c6F2uk3JpJvxgXl5DeHUtDa5qGf/HZzaCmQxsvd8Re3Oh5Cah4uUCqoi9uB5FYx3hLND2w==}
+
   grapesjs@0.22.13:
     resolution: {integrity: sha512-GsLqv9ckVF7cWgp6aqlmxmLUJSsGvni4FHsKm9nxa6rv3acUeTkdR93GbbYaTejn5nFFCn9mBwzGGmGh9X+xHA==}
 
@@ -1555,6 +1576,11 @@ packages:
   lru-cache@7.18.3:
     resolution: {integrity: sha512-jumlc0BIUrS3qJGgIkWZsyfAM7NCWiBcCDhnd+3NNM5KbBmLTgHVfWBcg6W+rLUsIpzpERPsvwUP7CckAQSOoA==}
     engines: {node: '>=12'}
+
+  lucide-react@0.545.0:
+    resolution: {integrity: sha512-7r1/yUuflQDSt4f1bpn5ZAocyIxcTyVyBBChSVtBKn5M+392cPmI5YJMWOJKk/HUWGm5wg83chlAZtCcGbEZtw==}
+    peerDependencies:
+      react: ^16.5.1 || ^17.0.0 || ^18.0.0 || ^19.0.0
 
   magic-string@0.30.19:
     resolution: {integrity: sha512-2N21sPY9Ws53PZvsEpVtNuSW+ScYbQdp4b9qUaL+9QkHUrGFKo56Lg9Emg5s9V/qrtNBmiR01sYhUOwu3H+VOw==}
@@ -3494,6 +3520,12 @@ snapshots:
 
   graceful-fs@4.2.11: {}
 
+  grapesjs-blocks-basic@1.0.2: {}
+
+  grapesjs-plugin-forms@2.0.6: {}
+
+  grapesjs-preset-webpage@1.0.3: {}
+
   grapesjs@0.22.13:
     dependencies:
       '@types/backbone': 1.4.15
@@ -3820,6 +3852,10 @@ snapshots:
       js-tokens: 4.0.0
 
   lru-cache@7.18.3: {}
+
+  lucide-react@0.545.0(react@19.1.0):
+    dependencies:
+      react: 19.1.0
 
   magic-string@0.30.19:
     dependencies:
