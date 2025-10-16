@@ -16,10 +16,10 @@ export default function TailwindGrapes() {
       height: "100vh",
       width: "auto",
       storageManager: false,
-      fromElement: false, // Changed to false
+      fromElement: false,
       canvas: {
         styles: [],
-        scripts: [],
+        scripts: ['https://cdn.tailwindcss.com'],
       },
     });
 
@@ -28,6 +28,16 @@ export default function TailwindGrapes() {
     if (documentsContainer) {
       editor.setComponents(documentsContainer.innerHTML);
     }
+
+    // Inject Tailwind config before Tailwind executes
+    editor.on("canvas:frame:load", () => {
+      const frameDoc = editor.Canvas.getDocument();
+      if (!frameDoc) return;
+
+      const cfg = frameDoc.createElement("script");
+      cfg.textContent = `tailwind.config = { corePlugins: { preflight: false } }`;
+      frameDoc.head.insertBefore(cfg, frameDoc.head.firstChild);
+    });
 
     // Command to send HTML/CSS to preview
     editor.Commands.add("send-to-preview", {
@@ -47,20 +57,6 @@ export default function TailwindGrapes() {
         attributes: { title: "Preview & Download PDF" },
       },
     ]);
-
-    // Inject Tailwind CDN into GrapesJS iframe
-    editor.on("canvas:frame:load", () => {
-      const frameDoc = editor.Canvas.getDocument();
-      if (!frameDoc) return;
-
-      const cfg = frameDoc.createElement("script");
-      cfg.textContent = `tailwind.config = { corePlugins: { preflight: false } }`;
-      frameDoc.head.appendChild(cfg);
-
-      const tw = frameDoc.createElement("script");
-      tw.src = "https://cdn.tailwindcss.com";
-      frameDoc.head.appendChild(tw);
-    });
 
     return () => {
       editor.destroy();
