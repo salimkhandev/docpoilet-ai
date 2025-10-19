@@ -2,8 +2,8 @@
 import grapesjs from "grapesjs";
 import "grapesjs/dist/css/grapes.min.css";
 import { useEffect, useState } from "react";
-import Documents from "./Documents";
-import PreviewRenderer from "./PreviewRenderer";
+import Documents from "../components/Documents";
+import PreviewRenderer from "../components/PreviewRenderer";
 
 
 

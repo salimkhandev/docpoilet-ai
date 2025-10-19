@@ -52,11 +52,11 @@ export default function PreviewRenderer({ html, css, onBack }: PreviewRendererPr
             <div
                 ref={targetRef}
                 className="preview-scope m-0 p-0 bg-white"
-                style={{ backgroundColor: "#ffffff", color: "#111827", margin: 0, padding: 0, paddingBottom: "12pt" }}
+                style={{ backgroundColor: "#ffffff", color: "#111827", margin: 0, padding: 0 }}
             >
                 <style>{`
                   /* Force hex/RGB colors for html2canvas compatibility */
-                  .preview-scope { color: #111827; background-color: #ffffff; margin: 0; padding: 0; padding-bottom: 12pt; }
+                  .preview-scope { color: #111827; background-color: #ffffff; margin: 0; padding: 0; }
                   .preview-scope .bg-white { background-color: #ffffff !important; }
                   .preview-scope .bg-gray-100 { background-color: #f3f4f6 !important; }
                   .preview-scope .text-gray-800 { color: #1f2937 !important; }
@@ -68,7 +68,6 @@ export default function PreviewRenderer({ html, css, onBack }: PreviewRendererPr
                 `}</style>
                 <style>{css}</style>
                 <div dangerouslySetInnerHTML={content} />
-                <div aria-hidden="true" style={{ height: "6pt" }} />
             </div>
         </div>
     );

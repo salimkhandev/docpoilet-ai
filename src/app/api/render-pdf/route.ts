@@ -21,7 +21,8 @@ function buildHtmlDocument(html: string, css?: string): string {
     <style>
       /* Ensure clean PDF canvas */
       @page { size: A4; margin: 0; }
-      html, body { margin: 0; padding: 12px 0 12px 0; background: #ffffff; color: #111827; }
+      /* Use PDF margins only; avoid body padding to prevent overflow to a second page */
+      html, body { margin: 0; padding: 0; background: #ffffff; color: #111827; }
       /* Optional base font defaults to sans-serif if Geist not available */
       body { font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji"; }
     </style>
@@ -66,6 +67,7 @@ export async function POST(req: Request) {
         const pdfBuffer = await page.pdf({
             format: "A4",
             printBackground: true,
+            // Apply margins here (no body padding) so short content stays on a single page
             margin: { top: "12px", right: "0", bottom: "12px", left: "0" },
         });
 
