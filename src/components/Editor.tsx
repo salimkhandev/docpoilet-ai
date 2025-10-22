@@ -11,7 +11,7 @@ import { defaultHtml } from "../data/defaultHtml";
 
 export default function TailwindGrapes() {
     const [exported, setExported] = useState<{ html: string; css: string } | null>(null);
-    const { state, setState } = useAIState(); // ✅ now we can read & update HTML dynamically
+    const { state, dispatch } = useAIState(); // ✅ now we can read & update HTML dynamically
 
     useEffect(() => {
         if (exported) return;
@@ -203,7 +203,7 @@ console.log('HTML LOAED TO EDITOR😂😂😂😂😂😂',htmlToLoad)
             // alert('updated')
 
             const html = editor.getHtml();
-            setState((prev:any) => ({ ...prev, htmlContent: html }));
+            dispatch({ type: "SET_HTML_CONTENT", payload: html });
         });
 
         // Open asset manager on image double-click (less intrusive than on select)
