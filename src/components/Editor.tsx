@@ -6,9 +6,8 @@ import gjsPreset from "grapesjs-preset-webpage";
 import "grapesjs/dist/css/grapes.min.css";
 import { useEffect, useState } from "react";
 import PreviewRenderer from "../components/PreviewRenderer";
-import Documents from "./Documents";
-import { defaultHtml } from "../data/defaultHtml";
 import { useAIState } from "../contexts/AIStateContext"; // ✅ import your context
+import { defaultHtml } from "../data/defaultHtml";
 
 export default function TailwindGrapes() {
     const [exported, setExported] = useState<{ html: string; css: string } | null>(null);
@@ -192,8 +191,8 @@ export default function TailwindGrapes() {
         });
 
         // Seed editor with the rendered HTML from the Documents component
-        // const htmlToLoad = state.htmlContent || defaultHtml;
-        const htmlToLoad =  defaultHtml;
+        const htmlToLoad = state.htmlContent || defaultHtml;
+        // const htmlToLoad =  defaultHtml;
         const parser = new DOMParser();
         const doc = parser.parseFromString(htmlToLoad, "text/html");
         const bodyContent = doc.body.innerHTML;
@@ -281,6 +280,30 @@ console.log('HTML LOAED TO EDITOR😂😂😂😂😂😂',htmlToLoad)
             }
         });
 
+        // Command to toggle blocks panel
+        editor.Commands.add('toggle-blocks', {
+            run(editor) {
+                const blocksPanel = document.querySelector('.w-64.bg-gray-900') as HTMLElement;
+                if (blocksPanel) {
+                    blocksPanel.style.display = blocksPanel.style.display === 'none' ? 'block' : 'none';
+                }
+            }
+        });
+
+        // Command to toggle right sidebar (layers, styles, traits)
+        editor.Commands.add('toggle-right-panel', {
+            run(editor) {
+                const rightPanel = document.querySelector('.w-80.bg-gray-100') as HTMLElement;
+                if (rightPanel) {
+                    rightPanel.style.display = rightPanel.style.display === 'none' ? 'block' : 'none';
+                }
+            }
+        });
+
+        // Add keyboard shortcuts
+        editor.Keymaps.add('toggle-blocks', 'ctrl+b', 'toggle-blocks');
+        editor.Keymaps.add('toggle-right-panel', 'ctrl+r', 'toggle-right-panel');
+
         // Add custom buttons in GrapesJS panel
         editor.Panels.addButton("options", [
             {
@@ -300,6 +323,18 @@ console.log('HTML LOAED TO EDITOR😂😂😂😂😂😂',htmlToLoad)
                 className: "fa fa-trash",
                 command: "clear-canvas",
                 attributes: { title: "Clear Canvas" },
+            },
+            {
+                id: "toggle-blocks-btn",
+                className: "fa fa-th-large",
+                command: "toggle-blocks",
+                attributes: { title: "Toggle Blocks Panel" },
+            },
+            {
+                id: "toggle-right-panel-btn",
+                className: "fa fa-cog",
+                command: "toggle-right-panel",
+                attributes: { title: "Toggle Right Panel (Layers, Styles, Traits)" },
             },
         ]);
 

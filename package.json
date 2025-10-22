@@ -2,6 +2,7 @@
   "name": "docpilot-ai",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -9,6 +10,7 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@huggingface/inference": "^2.6.4",
     "@napi-rs/canvas": "^0.1.80",
     "@sparticuz/chromium-min": "^133.0.0",
     "cloudmersive-convert-api-client": "^2.8.0",

@@ -22,7 +22,7 @@ interface Message {
  */
 export default function ComponentGenerator() {
   const { state, dispatch } = useAIState();
-  const [messages, setMessages] = useState<Message[]>([]);
+  // const [messages, setMessages] = useState<Message[]>([]);
   const [isConnected, setIsConnected] = useState(false);
   const [seenMessageIds, setSeenMessageIds] = useState<Set<string>>(new Set());
   const [pendingUserMessages, setPendingUserMessages] = useState<Map<string, string>>(new Map()); // tempId -> text
@@ -55,7 +55,6 @@ export default function ComponentGenerator() {
           const data = await response.json();
             const aiResponse = data.data.messages[0].payload.text || null;
           console.log('aiResponse❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️',aiResponse);
-          dispatch({ type: "GENERATE_START" });
 
           const botpressMessages = data.data?.messages || [];
           const sortedMessages = botpressMessages.sort(
@@ -72,6 +71,8 @@ export default function ComponentGenerator() {
             createdAt: new Date(msg.createdAt),
           }));
           dispatch({ type: "SET_MESSAGES", payload: formattedMessages });
+
+          console.log('formattedMessages',formattedMessages)
 
           // ✅ End generation success
           dispatch({
@@ -124,44 +125,44 @@ export default function ComponentGenerator() {
   }, [etag, seenMessageIds, pendingUserMessages]);
 
   // Memoized message creation functions
-  const addUserMessage = useCallback((text: string, messageId?: string, isLoading: boolean = false) => {
-    const newMessage: Message = {
-      id: messageId || Date.now().toString(),
-      text,
-      isUser: true,
-      createdAt: new Date(),
-    };
-    setMessages(prev => [...prev, newMessage]);
-  }, []);
+  // const addUserMessage = useCallback((text: string, messageId?: string, isLoading: boolean = false) => {
+  //   const newMessage: Message = {
+  //     id: messageId || Date.now().toString(),
+  //     text,
+  //     isUser: true,
+  //     createdAt: new Date(),
+  //   };
+  //   setMessages(prev => [...prev, newMessage]);
+  // }, []);
 
-  const addBotMessage = useCallback((text: string, messageId?: string) => {
-    const newMessage: Message = {
-      id: messageId || Date.now().toString(),
-      text,
-      isUser: false,
-      createdAt: new Date()
-    };
-    setMessages(prev => [...prev, newMessage]);
-  }, []);
+  // const addBotMessage = useCallback((text: string, messageId?: string) => {
+  //   const newMessage: Message = {
+  //     id: messageId || Date.now().toString(),
+  //     text,
+  //     isUser: false,
+  //     createdAt: new Date()
+  //   };
+  //   setMessages(prev => [...prev, newMessage]);
+  // }, []);
 
-  const replacePendingMessage = useCallback((tempId: string, text: string, realId: string) => {
-    setMessages(prev => prev.map(msg => 
-      msg.id === tempId 
-        ? { ...msg, id: realId }
-        : msg
-    ));
-  }, []);
+  // const replacePendingMessage = useCallback((tempId: string, text: string, realId: string) => {
+  //   setMessages(prev => prev.map(msg => 
+  //     msg.id === tempId 
+  //       ? { ...msg, id: realId }
+  //       : msg
+  //   ));
+  // }, []);
 
   // Memoized send message function
   const sendMessage = useCallback(async (text: string) => {
     if (!text.trim()) return;
 
     // Generate a temporary ID for the user message
-    const tempId = `temp_${Date.now()}`;
-    addUserMessage(text, tempId, true); // Add with loading state
+    // const tempId = `temp_${Date.now()}`;
+    // addUserMessage(text, tempId, true); // Add with loading state
     
     // Track this as a pending user message
-    setPendingUserMessages(prev => new Map([...prev, [tempId, text]]));
+    // setPendingUserMessages(prev => new Map([...prev, [tempId, text]]));
 
     // Dispatch AI generation start
 
@@ -180,10 +181,12 @@ export default function ComponentGenerator() {
       }
 
       const data = await response.json();
-
+      // addUserMessage(data.text, tempId, true); // Add with loading state
+// console.log('response from api resoponse ',data)
       
       if (!data.success) {
         throw new Error(data.error || 'Failed to generate component');
+
       }
 
       // Extract text response from API
@@ -193,9 +196,9 @@ export default function ComponentGenerator() {
 
     } catch (error) {
       console.error('Send error:', error);
-      addBotMessage('Failed to generate component. Please try again.', `error_${Date.now()}`);
+      // addBotMessage('Failed to generate component. Please try again.', `error_${Date.now()}`);
     }
-  }, [addUserMessage, addBotMessage, dispatch]);
+  }, [ dispatch]);
 
 
   return (
@@ -207,9 +210,9 @@ export default function ComponentGenerator() {
         >
           <HeaderComponent isConnected={isConnected} isLoading={state.isLoading} />
           
-          <MessageListComponent messages={messages} error={state.error || undefined} />
+          <MessageListComponent error={state.error || undefined} />
           
-          <InputComponent onSendMessage={sendMessage} isLoading={state.isLoading} />
+          <InputComponent onSendMessage={sendMessage} />
         </div>
       </div>
     </div>

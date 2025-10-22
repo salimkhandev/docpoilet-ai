@@ -123,7 +123,4 @@ export const defaultHtml = `
 
 </body>
 </html>
-
-
-
 `;

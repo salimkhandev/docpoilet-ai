@@ -53,6 +53,11 @@ const aiReducer = (state: AIState, action: AIAction): AIState => {
             let htmlUpdateCount = state.htmlUpdateCount;
 
             for (const message of action.payload) {
+
+                console.log('message🟢🟢🟢🟢🟢🟢',action.payload)
+                console.log('message.text',message.text)
+
+
                 const htmlPattern =
                     /```html\s*([\s\S]*?)```|<!DOCTYPE\s+html[\s\S]*?<\/html>|<html[\s\S]*?<\/html>/i;
                 const htmlMatch = message.text.match(htmlPattern);
@@ -88,18 +93,10 @@ const aiReducer = (state: AIState, action: AIAction): AIState => {
             return { ...state, isLoading: true, error: null };
 
         case "GENERATE_SUCCESS":
+            
             return { ...state, isLoading: false, error: null };
-
         case "GENERATE_ERROR":
             return { ...state, isLoading: false, error: action.payload };
-
-        case "SET_HTML_CONTENT":
-            return {
-                ...state,
-                htmlContent: action.payload,
-                htmlUpdateCount: state.htmlUpdateCount + 1, // ✅ every manual update counts too
-            };
-
         default:
             return state;
     }

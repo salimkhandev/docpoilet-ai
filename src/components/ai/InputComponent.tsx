@@ -1,11 +1,12 @@
 import React, { useCallback, useEffect, useRef } from 'react';
+import { useAIState } from '@/contexts/AIStateContext';
 
 interface InputComponentProps {
   onSendMessage: (message: string) => void;
-  isLoading: boolean;
 }
 
-const InputComponent = React.memo(({ onSendMessage, isLoading }: InputComponentProps) => {
+const InputComponent = React.memo(({ onSendMessage }: InputComponentProps) => {
+  const { state, dispatch } = useAIState();
   const [inputValue, setInputValue] = React.useState('');
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -18,8 +19,9 @@ const InputComponent = React.memo(({ onSendMessage, isLoading }: InputComponentP
   const sendMessage = useCallback((text: string) => {
     if (!text.trim()) return;
     onSendMessage(text);
+    dispatch({ type: "GENERATE_START" });
     setInputValue('');
-  }, [onSendMessage]);
+  }, [onSendMessage, dispatch]);
 
   // Memoized event handlers
   const handleSubmit = useCallback((e: React.FormEvent) => {
@@ -50,18 +52,18 @@ const InputComponent = React.memo(({ onSendMessage, isLoading }: InputComponentP
           onKeyPress={handleKeyPress}
           placeholder="Type your message here..."
           className="flex-1 px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 focus:border-transparent transition-all"
-          disabled={isLoading}
+          disabled={state.isLoading}
         />
         <button
           type="submit"
-          disabled={isLoading || !inputValue.trim()}
+          disabled={state.isLoading || !inputValue.trim()}
           className="px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 disabled:from-gray-400 disabled:to-gray-500 text-white font-medium rounded-xl transition-all transform hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800"
         >
           <span className="hidden sm:inline">
-            {isLoading ? 'Sending...' : 'Send'}
+            {state.isLoading ? 'Sending...' : 'Send'}
           </span>
           <span className="sm:hidden">
-            {isLoading ? '⏳' : '📤'}
+            {state.isLoading ? '⏳' : '📤'}
           </span>
         </button>
       </form>

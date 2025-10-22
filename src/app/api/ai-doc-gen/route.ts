@@ -14,7 +14,7 @@ function generateETag(data: any): string {
 
 // POST: Send message to Botpress and get AI response
 export async function POST(request: NextRequest) {
-    try {
+    try {       
         const { message, conversationId } = await request.json();
 
         if (!message) {
@@ -51,8 +51,9 @@ export async function POST(request: NextRequest) {
         }
 
         // Parse AI response - return simple text
-        const aiResponse = data.payload?.text || null;
-
+        // console.log('data',data)
+        const aiResponse = data.message.payload?.text || null;
+console.log('aiResponse to client from botpress ie the same message to the client again',aiResponse)
         return NextResponse.json({
             success: true,
             text: aiResponse

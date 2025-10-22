@@ -1,3 +1,4 @@
+import { useAIState } from '@/contexts/AIStateContext';
 import React, { useCallback, useEffect, useRef } from 'react';
 
 interface Message {
@@ -8,7 +9,7 @@ interface Message {
 }
 
 interface MessageListComponentProps {
-  messages: Message[];
+  // messages: Message[];
   error?: string;
 }
 
@@ -31,7 +32,11 @@ const MessageItem = React.memo(({ message }: { message: Message }) => (
 
 MessageItem.displayName = 'MessageItem';
 
-const MessageListComponent = React.memo(({ messages, error }: MessageListComponentProps) => {
+const MessageListComponent = React.memo(({ error }: MessageListComponentProps) => {
+  const { state } = useAIState();
+
+
+  console.log('state.messages🤡🤡🤡🤡🤡🤡',state.isLoading)
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   // Memoized scroll function to prevent unnecessary re-renders
@@ -41,18 +46,18 @@ const MessageListComponent = React.memo(({ messages, error }: MessageListCompone
 
   useEffect(() => {
     scrollToBottom();
-  }, [messages, scrollToBottom]);
+  }, [state.messages, scrollToBottom]);
 
   return (
     <div className="flex-1 overflow-y-auto px-4 sm:px-6 py-6 space-y-4 bg-gray-50/50 dark:bg-gray-900/50">
-      {messages.length === 0 && (
+      {state.messages.length === 0 && (
         <div className="text-center text-gray-500 dark:text-gray-400">
           <p className="text-lg font-medium mb-2">Welcome to AI Chat Assistant</p>
           <p className="text-sm">Ask me anything! I can help with coding, components, or general questions.</p>
         </div>
       )}
       
-      {messages.map((message) => (
+      {state.messages.map((message: Message) => (
         <MessageItem key={message.id} message={message} />
       ))}
       
