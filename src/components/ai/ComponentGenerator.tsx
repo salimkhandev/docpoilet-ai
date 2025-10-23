@@ -26,7 +26,7 @@ export default function ComponentGenerator() {
   const [isConnected, setIsConnected] = useState(false);
   const [seenMessageIds, setSeenMessageIds] = useState<Set<string>>(new Set());
   const [pendingUserMessages, setPendingUserMessages] = useState<Map<string, string>>(new Map()); // tempId -> text
-  const [etag, setEtag] = useState<string | null>(null);
+
 
 
   // Optimized polling with ETag caching
@@ -35,21 +35,11 @@ export default function ComponentGenerator() {
     
     const pollMessages = async () => {
       try {
-        const headers: Record<string, string> = {};
-        if (etag) {
-          headers['If-None-Match'] = etag;
-        }
+       
         
-        const response = await fetch('/api/ai-doc-gen?conversationId=salim', {
-          headers
-        });
+        const response = await fetch('/api/ai-doc-gen?conversationId=salim');
         
-        if (response.status === 304) {
-          // No new data - server returned Not Modified
-          console.log('📦 ETag cache hit - no new data, saving bandwidth!');
-          setIsConnected(true);
-          return;
-        }
+    
         
         if (response.ok) {
           const data = await response.json();
@@ -92,7 +82,7 @@ export default function ComponentGenerator() {
             const newEtag = response.headers.get('ETag');
             if (newEtag) {
               console.log('🔄 New data received, updating ETag:', newEtag);
-              setEtag(newEtag);
+      
             }
             
             setIsConnected(true);
@@ -122,7 +112,7 @@ export default function ComponentGenerator() {
         clearTimeout(timeoutId);
       }
     };
-  }, [etag, seenMessageIds, pendingUserMessages]);
+  }, [seenMessageIds, pendingUserMessages]);
 
   // Memoized message creation functions
   // const addUserMessage = useCallback((text: string, messageId?: string, isLoading: boolean = false) => {
