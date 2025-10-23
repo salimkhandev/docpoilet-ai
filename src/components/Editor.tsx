@@ -197,7 +197,7 @@ export default function TailwindGrapes() {
         const doc = parser.parseFromString(htmlToLoad, "text/html");
         const bodyContent = doc.body.innerHTML;
         editor.setComponents(bodyContent);
-console.log('HTML LOAED TO EDITOR😂😂😂😂😂😂',htmlToLoad)
+// console.log('HTML LOAED TO EDITOR😂😂😂😂😂😂',htmlToLoad)
         // ✅ When GrapesJS updates, sync back to context (to reflect live)
         editor.on("update", () => {
             // alert('updated')

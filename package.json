@@ -10,6 +10,7 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@botpress/client": "^1.26.0",
     "@huggingface/inference": "^2.6.4",
     "@napi-rs/canvas": "^0.1.80",
     "@sparticuz/chromium-min": "^133.0.0",

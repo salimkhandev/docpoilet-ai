@@ -36,7 +36,7 @@ const MessageListComponent = React.memo(({ error }: MessageListComponentProps) =
   const { state } = useAIState();
 
 
-  console.log('state.messages🤡🤡🤡🤡🤡🤡',state.isLoading)
+  // console.log('state.messages🤡🤡🤡🤡🤡🤡',state.isLoading)
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   // Memoized scroll function to prevent unnecessary re-renders
