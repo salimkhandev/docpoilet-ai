@@ -202,8 +202,8 @@ console.log('HTML LOAED TO EDITOR😂😂😂😂😂😂',htmlToLoad)
         editor.on("update", () => {
             // alert('updated')
 
-            const html = editor.getHtml();
-            dispatch({ type: "SET_HTML_CONTENT", payload: html });
+            // const html = editor.getHtml();
+            // dispatch({ type: "SET_HTML_CONTENT", payload: html });
         });
 
         // Open asset manager on image double-click (less intrusive than on select)
