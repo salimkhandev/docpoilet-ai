@@ -8,6 +8,8 @@ type PreviewRendererProps = {
 
 export default function PreviewRenderer({ html, css, onBack }: PreviewRendererProps) {
     const targetRef = useRef<HTMLDivElement | null>(null);
+console.log("HTML IS", html);
+console.log("CSS IS", css);
 
     const handleDownloadPdf = useCallback(async () => {
         const element = targetRef.current;

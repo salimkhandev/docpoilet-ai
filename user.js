@@ -1,8 +1,4 @@
-let myObject={
-name:'Salim Khan',
-age:34
-}
-
-
-let  {name,...rest}=myObject;
-console.log()
+let input = "Hi";
+// if (typeof input === "string") {
+console.log(input.toUpperCase());
+// }

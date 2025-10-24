@@ -152,8 +152,16 @@ export default function TailwindGrapes() {
             },
 
             canvas: {
-                styles: [],
-                scripts: ['https://cdn.tailwindcss.com'],
+              styles: [
+                "https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Fira+Mono:wght@400;700&family=Open+Sans:wght@400;600&display=swap",
+                "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css",
+                ],
+              scripts: [
+                "https://cdn.tailwindcss.com",
+                "https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css",
+                "https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js",
+                "https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-typescript.min.js",
+              ]
             },
         });
 
@@ -195,9 +203,9 @@ export default function TailwindGrapes() {
         // const htmlToLoad =  defaultHtml;
         const parser = new DOMParser();
         const doc = parser.parseFromString(htmlToLoad, "text/html");
-        const bodyContent = doc.body.innerHTML;
-        editor.setComponents(bodyContent);
-// console.log('HTML LOAED TO EDITOR😂😂😂😂😂😂',htmlToLoad)
+        const fullHtml = doc.documentElement.innerHTML;
+        editor.setComponents(fullHtml);
+// console.log('HTML LOAED TO EDITOR😂😂😂😂😂😂',fullHtml)
         // ✅ When GrapesJS updates, sync back to context (to reflect live)
         editor.on("update", () => {
             // alert('updated')
