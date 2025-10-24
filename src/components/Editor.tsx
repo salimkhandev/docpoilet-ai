@@ -157,8 +157,8 @@ export default function TailwindGrapes() {
                 "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css",
                 ],
               scripts: [
-                "https://cdn.tailwindcss.com",
                 "https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css",
+                "https://cdn.tailwindcss.com",
                 "https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js",
                 "https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-typescript.min.js",
               ]
@@ -199,8 +199,8 @@ export default function TailwindGrapes() {
         });
 
         // Seed editor with the rendered HTML from the Documents component
-        const htmlToLoad = state.htmlContent || defaultHtml;
-        // const htmlToLoad =  defaultHtml;
+        // const htmlToLoad = state.htmlContent || defaultHtml;
+        const htmlToLoad =  defaultHtml;
         const parser = new DOMParser();
         const doc = parser.parseFromString(htmlToLoad, "text/html");
         const fullHtml = doc.documentElement.innerHTML;
