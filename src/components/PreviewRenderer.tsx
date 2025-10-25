@@ -8,20 +8,19 @@ type PreviewRendererProps = {
 
 export default function PreviewRenderer({ html, css, onBack }: PreviewRendererProps) {
     const targetRef = useRef<HTMLDivElement | null>(null);
-console.log("HTML IS", html);
-console.log("CSS IS", css);
+    console.log("HTML IS", html);
+    console.log("CSS IS", css);
 
     const handleDownloadPdf = useCallback(async () => {
-        const element = targetRef.current;
-        if (!element) return;
-
-        const html = element.innerHTML;
         const res = await fetch("/api/render-pdf", {
             method: "POST",
             headers: { "content-type": "application/json" },
             body: JSON.stringify({ html, css }),
         });
-        if (!res.ok) return;
+        if (!res.ok) {
+            console.error("PDF generation failed:", res.status, res.statusText);
+            return;
+        }
         const blob = await res.blob();
         const url = URL.createObjectURL(blob);
         const a = document.createElement("a");
@@ -29,10 +28,22 @@ console.log("CSS IS", css);
         a.download = "design.pdf";
         a.click();
         URL.revokeObjectURL(url);
-    }, [css]);
+    }, [html, css]);
+
+    // Check if HTML is a full document or just body content
+    const isFullDocument = html.trim().startsWith('<!DOCTYPE') || html.trim().startsWith('<html');
+    
+    // Extract body content for preview if it's a full document
+    const getBodyContent = (fullHtml: string) => {
+        if (!isFullDocument) return fullHtml;
+        
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(fullHtml, 'text/html');
+        return doc.body?.innerHTML || fullHtml;
+    };
 
     // Memoize the content to avoid re-calculations
-    const content = useMemo(() => ({ __html: html }), [html]);
+    const content = useMemo(() => ({ __html: getBodyContent(html) }), [html]);
 
     return (
         <div className="min-h-screen">
@@ -74,5 +85,4 @@ console.log("CSS IS", css);
         </div>
     );
 }
-
 
